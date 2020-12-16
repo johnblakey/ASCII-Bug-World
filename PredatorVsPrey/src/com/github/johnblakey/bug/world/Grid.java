@@ -24,10 +24,10 @@ public class Grid {
     }
 
     public void print() {
-        for (int x = 0; x < size; x++) {
+        for (int y = size - 1; y >= 0; y--) {
             System.out.print("| ");
-            for (int y = 0; y < size; y++) {
-                printOrganism(grid[y][x]);
+            for (int x = 0; x < size; x++) {
+                printOrganism(grid[x][y]);
                 System.out.print(" | ");
             }
             System.out.print("\n");
