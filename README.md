@@ -1,2 +1,4 @@
 # ASCII-Bug-World
-Simulate plants, ants, and spiders interacting on a grid with ASCII art.
+
+## Predator - Prey Simulator
+Turn based simulation with plants, ants, and spiders interacting on a grid with ASCII art.
