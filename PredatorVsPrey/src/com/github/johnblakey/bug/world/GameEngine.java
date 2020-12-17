@@ -3,10 +3,18 @@ package com.github.johnblakey.bug.world;
 public class GameEngine {
     private Grid grid;
 
+    public static void main(String[] args) {
+        System.out.println("Bug World");
+
+        GameEngine game = new GameEngine();
+        game.start();
+    }
+
     public void start() {
         // Grid represents the world
         grid = new Grid(10);
         placeOrganisms();
+        print();
         moveTurn();
         behaviorTurn();
         print();
@@ -34,6 +42,9 @@ public class GameEngine {
     }
 
     private void print() {
+        // Clear console
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
         grid.print();
     }
 

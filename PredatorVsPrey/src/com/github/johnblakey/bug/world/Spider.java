@@ -12,7 +12,7 @@ public class Spider extends Organism {
         Iterator<Organism> i = square.iterator();
         while (i.hasNext()) {
             // send message of what organism is here
-            if (i.next() instanceof Plant) {
+            if (i.next() instanceof Ant) {
                 // move to this location
                 return true;
             }
