@@ -7,6 +7,7 @@ import java.util.Vector;
 public class Grid {
     private int size;
     private HashSet<Organism>[][] grid;
+    private int totalOrganismTypes = 3;
 
     public Grid(int size) {
         this.size = size;
@@ -27,10 +28,14 @@ public class Grid {
     // TODO improve the printing for fixed width that can handle up to 3 organisms
     public void print() {
         for (int y = size - 1; y >= 0; y--) {
-            System.out.print("| ");
+            System.out.print("|");
             for (int x = 0; x < size; x++) {
+                // print empty space based on organism population
+                for (int i = 0; i < totalOrganismTypes - grid[x][y].size(); i++) {
+                    System.out.print(" ");
+                }
                 displayOrganisms(grid[x][y]);
-                System.out.print(" | ");
+                System.out.print("|");
             }
             System.out.print("\n");
         }
@@ -69,16 +74,16 @@ public class Grid {
         }
     }
 
-    public void moveLoop() {
+    public void moveGridOrganisms() {
         resetMovedGrid();
         for (int y = size - 1; y >= 0; y--) {
             for (int x = 0; x < size; x++) {
-                moveOrganism(grid[x][y]);
+                moveSquareOrganisms(grid[x][y]);
             }
         }
     }
 
-    private boolean moveOrganism(HashSet<Organism> square) {
+    private boolean moveSquareOrganisms(HashSet<Organism> square) {
         Iterator<Organism> i = square.iterator();
         while (i.hasNext()) {
             if (checkSquareOrganism(i.next()))
@@ -87,7 +92,7 @@ public class Grid {
         return false;
     }
 
-    // refactor
+    // TODO refactor
     private boolean checkSquareOrganism(Organism organism) {
         if (organism.getHasMoved())
             return false;
@@ -152,16 +157,17 @@ public class Grid {
         return validSquares;
     }
 
-    public void actionLoop() {
+    public void gridOrganismsSquareActions() {
         for (int y = size - 1; y >= 0; y--) {
             for (int x = 0; x < size; x++) {
-                evaluateSquare(grid[x][y]);
+                squareOrganismsActions(grid[x][y]);
             }
         }
     }
 
+    // TODO refactor
     // Grid will evaluate square and determine what animals are eaten based on interactions
-    private void evaluateSquare(HashSet<Organism> square) {
+    private void squareOrganismsActions(HashSet<Organism> square) {
         boolean hasPlant = false;
         boolean hasAnt = false;
         boolean hasSpider = false;
@@ -182,11 +188,10 @@ public class Grid {
             }
             else if (next instanceof Spider) {
                 hasSpider = true;
-                spider = next;
             }
         }
 
-        // drive evaluation (refactor to organisms grid know too much)
+        // drive evaluation (TODO refactor to organisms -> grid knows too much)
         if (hasSpider && hasAnt) {
             removeOrganism(ant);
         } else if (hasAnt && hasPlant) {

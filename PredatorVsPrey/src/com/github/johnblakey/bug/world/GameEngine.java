@@ -30,25 +30,38 @@ public class GameEngine {
         }
     }
 
+    // TODO random placement and option on how many of xyz to place
     private void placeOrganisms() {
-        Organism ant = new Ant(0,1);
+        Organism ant = new Ant(0,0);
         grid.addOrganism(ant);
 
-//        Organism plant = new Plant(5, 5);
-//        grid.addOrganism(plant);
-//
-//        Organism spider = new Spider(9, 9);
-//        grid.addOrganism(spider);
+        Organism plant1 = new Plant(0, 2);
+        grid.addOrganism(plant1);
+
+        Organism ant1 = new Ant(0,1);
+        grid.addOrganism(ant1);
+
+        Organism spider1 = new Spider(3, 4);
+        grid.addOrganism(spider1);
+
+        Organism spider2 = new Spider(1, 1);
+        grid.addOrganism(spider2);
+
+        Organism plant = new Plant(2, 2);
+        grid.addOrganism(plant);
+
+        Organism spider = new Spider(4, 4);
+        grid.addOrganism(spider);
     }
 
     private void moveTurn() {
         // Organisms move per their characteristics
-        grid.moveLoop();
+        grid.moveGridOrganisms();
     }
 
     private void behaviorTurn() {
         // Organism behavior is evaluated in each square
-        grid.actionLoop();
+        grid.gridOrganismsSquareActions();
     }
 
     private void print() {

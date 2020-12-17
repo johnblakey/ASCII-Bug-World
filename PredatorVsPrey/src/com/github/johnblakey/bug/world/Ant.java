@@ -6,8 +6,11 @@ import java.util.Iterator;
 public class Ant extends Organism {
     Ant(int x, int y) {
         super("8", x, y);
+        setReproduceTurns(5);
+        setStarveTurns(10);
     }
 
+    // TODO make random
     public boolean moveEat(HashSet<Organism> square) {
         // Empty square has no food
         if (square.size() == 0)
@@ -34,6 +37,7 @@ public class Ant extends Organism {
             return false;
     }
 
+    // TODO make random
     public boolean move(HashSet<Organism> square) {
         // Move to an empty square
         if (square.size() == 0) {
@@ -60,11 +64,11 @@ public class Ant extends Organism {
             return false;
     }
 
-    public void reproduce() {
-
+    public boolean reproduce() {
+        return false;
     }
 
-    public void die() {
-
+    public boolean die() {
+        return false;
     }
 }
