@@ -1,10 +1,10 @@
 package com.github.johnblakey.bug.world;
 
-public class SquareLocation {
+public class SquareCoordinates {
     final int x;
     final int y;
 
-    SquareLocation(int x, int y) {
+    SquareCoordinates(int x, int y) {
         this.x = x;
         this.y = y;
     }

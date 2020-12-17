@@ -6,6 +6,7 @@ abstract class Organism {
     private String symbol = " ";
     private int x;
     private int y;
+    private boolean hasMoved;
     EatBehavior eatBehavior;
 
     Organism(String symbol, int x, int y) {
@@ -34,15 +35,24 @@ abstract class Organism {
         this.x = x;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public int getX() {
         return x;
     }
 
+    public void setY(int y) {
+        this.y = y;
+    }
+
     public int getY() {
         return y;
+    }
+
+
+    public boolean getHasMoved() {
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean set) {
+        hasMoved = set;
     }
 }

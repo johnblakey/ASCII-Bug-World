@@ -24,11 +24,12 @@ public class Grid {
         }
     }
 
+    // TODO improve the printing for fixed width that can handle up to 3 organisms
     public void print() {
         for (int y = size - 1; y >= 0; y--) {
             System.out.print("| ");
             for (int x = 0; x < size; x++) {
-                printOrganism(grid[x][y]);
+                displayOrganisms(grid[x][y]);
                 System.out.print(" | ");
             }
             System.out.print("\n");
@@ -47,13 +48,29 @@ public class Grid {
         grid[x][y].remove(organism);
     }
 
-    private void printOrganism(HashSet<Organism> square) {
+    private void displayOrganisms(HashSet<Organism> square) {
         Iterator<Organism> i = square.iterator();
         while (i.hasNext())
             System.out.print(i.next().getSymbol());
     }
 
+    public void resetMovedGrid() {
+        for (int y = size - 1; y >= 0; y--) {
+            for (int x = 0; x < size; x++) {
+                resetMovedSquare(grid[x][y]);
+            }
+        }
+    }
+
+    public void resetMovedSquare(HashSet<Organism> square) {
+        Iterator<Organism> i = square.iterator();
+        while (i.hasNext()) {
+            i.next().setHasMoved(false);
+        }
+    }
+
     public void moveLoop() {
+        resetMovedGrid();
         for (int y = size - 1; y >= 0; y--) {
             for (int x = 0; x < size; x++) {
                 moveOrganism(grid[x][y]);
@@ -61,16 +78,20 @@ public class Grid {
         }
     }
 
-    private void moveOrganism(HashSet<Organism> square) {
+    private boolean moveOrganism(HashSet<Organism> square) {
         Iterator<Organism> i = square.iterator();
         while (i.hasNext()) {
-            // send message of what organism is here
-            checkSquares(i.next());
+            if (checkSquareOrganism(i.next()))
+                return true;
         }
+        return false;
     }
 
     // refactor
-    private void checkSquares(Organism organism) {
+    private boolean checkSquareOrganism(Organism organism) {
+        if (organism.getHasMoved())
+            return false;
+
         int x = organism.getX();
         int y = organism.getY();
 
@@ -88,42 +109,42 @@ public class Grid {
         if (y + 1 < size)
             yAdjacent.add(y + 1);
 
-        Vector<SquareLocation> validSquares = findAdjacent(organism, xAdjacent, yAdjacent);
 
-        // loop through validSquares having the organism evaluate if appropriate and move them if so
-        boolean foundFood = false;
-        for (SquareLocation pair : validSquares) {
-            foundFood = organism.moveEat(grid[pair.getX()][pair.getY()]);
-            if(foundFood) {
-                // move the organism there
+        Vector<SquareCoordinates> validSquares = findAdjacent(organism, xAdjacent, yAdjacent);
+
+        // loop through adjacent squares - organism evaluates each if appropriate and move them if so
+        for (SquareCoordinates pair : validSquares) {
+            if (organism.moveEat(grid[pair.getX()][pair.getY()])) {
+                // Grid and Organism steps to move the organism
                 removeOrganism(organism);
                 organism.setX(pair.getX());
                 organism.setY(pair.getY());
                 addOrganism(organism);
+                organism.setHasMoved(true);
+                return true;
             }
         }
-        if (!foundFood) {
-            boolean foundSquare = false;
-            for (SquareLocation pair : validSquares) {
-                foundSquare = organism.move(grid[pair.getX()][pair.getY()]);
-                if(foundSquare) {
-                    // move the organism there
-                    removeOrganism(organism);
-                    organism.setX(pair.getX());
-                    organism.setY(pair.getY());
-                    addOrganism(organism);
-                }
+        for (SquareCoordinates pair : validSquares) {
+            if(organism.move(grid[pair.getX()][pair.getY()])) {
+                // Grid and Organism steps to move the organism
+                removeOrganism(organism);
+                organism.setX(pair.getX());
+                organism.setY(pair.getY());
+                addOrganism(organism);
+                organism.setHasMoved(true);
+                return true;
             }
         }
-        // organism didn't move
+        // organism didn't move b/c no valid location existed
+        return false;
     }
 
-    private Vector<SquareLocation> findAdjacent(Organism organism, Vector<Integer> xV, Vector<Integer> yV) {
-        Vector<SquareLocation> validSquares = new Vector<>();
+    private Vector<SquareCoordinates> findAdjacent(Organism organism, Vector<Integer> xV, Vector<Integer> yV) {
+        Vector<SquareCoordinates> validSquares = new Vector<>();
         for (int x : xV) {
             for (int y : yV) {
                 if (x != organism.getX() || y != organism.getY()) {
-                    SquareLocation temp = new SquareLocation(x, y);
+                    SquareCoordinates temp = new SquareCoordinates(x, y);
                     validSquares.add(temp);
                 }
             }
@@ -131,7 +152,7 @@ public class Grid {
         return validSquares;
     }
 
-    public void evaluateLoop() {
+    public void actionLoop() {
         for (int y = size - 1; y >= 0; y--) {
             for (int x = 0; x < size; x++) {
                 evaluateSquare(grid[x][y]);

@@ -10,9 +10,11 @@ public class Spider extends Organism {
 
     public boolean moveEat(HashSet<Organism> square) {
         Iterator<Organism> i = square.iterator();
+        Organism next;
         while (i.hasNext()) {
+            next = i.next();
             // send message of what organism is here
-            if (i.next() instanceof Ant) {
+            if (next instanceof Ant) {
                 // move to this location
                 return true;
             }
@@ -22,12 +24,13 @@ public class Spider extends Organism {
 
     public boolean move(HashSet<Organism> square) {
         Iterator<Organism> i = square.iterator();
+        Organism next;
         while (i.hasNext()) {
+            next = i.next();
             // send message of what organism is here
-            if (i.next() instanceof Spider) {
-                // move to this location
+            if (next instanceof Spider) {
                 return false;
-            } else if (i.next() instanceof Ant)
+            } else if (next instanceof Ant)
                 return false;
         }
         return true;
