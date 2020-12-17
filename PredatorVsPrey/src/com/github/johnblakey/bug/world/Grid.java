@@ -1,7 +1,5 @@
 package com.github.johnblakey.bug.world;
 
-import com.sun.tools.javac.util.Pair;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
@@ -90,29 +88,29 @@ public class Grid {
         if (y + 1 < size)
             yAdjacent.add(y + 1);
 
-        Vector<Pair<Integer, Integer>> validSquares = findAdjacent(organism, xAdjacent, yAdjacent);
+        Vector<SquareLocation> validSquares = findAdjacent(organism, xAdjacent, yAdjacent);
 
         // loop through validSquares having the organism evaluate if appropriate and move them if so
         boolean foundFood = false;
-        for (Pair<Integer, Integer> pair : validSquares) {
-            foundFood = organism.moveEat(grid[pair.fst][pair.snd]);
+        for (SquareLocation pair : validSquares) {
+            foundFood = organism.moveEat(grid[pair.getX()][pair.getY()]);
             if(foundFood) {
                 // move the organism there
                 removeOrganism(organism);
-                organism.setX(pair.fst);
-                organism.setY(pair.snd);
+                organism.setX(pair.getX());
+                organism.setY(pair.getY());
                 addOrganism(organism);
             }
         }
         if (!foundFood) {
             boolean foundSquare = false;
-            for (Pair<Integer, Integer> pair : validSquares) {
-                foundSquare = organism.move(grid[pair.fst][pair.snd]);
+            for (SquareLocation pair : validSquares) {
+                foundSquare = organism.move(grid[pair.getX()][pair.getY()]);
                 if(foundSquare) {
                     // move the organism there
                     removeOrganism(organism);
-                    organism.setX(pair.fst);
-                    organism.setY(pair.snd);
+                    organism.setX(pair.getX());
+                    organism.setY(pair.getY());
                     addOrganism(organism);
                 }
             }
@@ -120,12 +118,12 @@ public class Grid {
         // organism didn't move
     }
 
-    private Vector<Pair<Integer, Integer>> findAdjacent(Organism organism, Vector<Integer> xV, Vector<Integer> yV) {
-        Vector<Pair<Integer, Integer>> validSquares = new Vector<>();
+    private Vector<SquareLocation> findAdjacent(Organism organism, Vector<Integer> xV, Vector<Integer> yV) {
+        Vector<SquareLocation> validSquares = new Vector<>();
         for (int x : xV) {
             for (int y : yV) {
                 if (x != organism.getX() || y != organism.getY()) {
-                    Pair<Integer, Integer> temp = new Pair<>(x, y);
+                    SquareLocation temp = new SquareLocation(x, y);
                     validSquares.add(temp);
                 }
             }

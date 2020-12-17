@@ -1,7 +1,5 @@
 package com.github.johnblakey.bug.world;
 
-import com.sun.tools.javac.util.Pair;
-
 import java.util.HashSet;
 
 abstract class Organism {
