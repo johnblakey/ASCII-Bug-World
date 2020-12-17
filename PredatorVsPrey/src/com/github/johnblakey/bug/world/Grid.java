@@ -133,6 +133,46 @@ public class Grid {
         return validSquares;
     }
 
+    public void evaluateLoop() {
+        for (int y = size - 1; y >= 0; y--) {
+            for (int x = 0; x < size; x++) {
+                evaluateSquare(grid[x][y]);
+            }
+        }
+    }
 
+    // Grid will evaluate square and determine what animals are eaten based on interactions
+    private void evaluateSquare(HashSet<Organism> square) {
+        boolean hasPlant = false;
+        boolean hasAnt = false;
+        boolean hasSpider = false;
+        Organism plant = null;
+        Organism ant = null;
+        Organism spider = null;
+
+        Iterator<Organism> i = square.iterator();
+        while (i.hasNext()) {
+            Organism next = i.next();
+            if (next instanceof Plant) {
+                hasPlant = true;
+                plant = next;
+            }
+            else if (next instanceof Ant) {
+                hasAnt = true;
+                ant = next;
+            }
+            else if (next instanceof Spider) {
+                hasSpider = true;
+                spider = next;
+            }
+        }
+
+        // drive evaluation (refactor to organisms grid know too much)
+        if (hasSpider && hasAnt) {
+            removeOrganism(ant);
+        } else if (hasAnt && hasPlant) {
+            removeOrganism(plant);
+        }
+    }
 
 }

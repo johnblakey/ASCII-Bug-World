@@ -8,8 +8,8 @@ public class GameEngine {
         grid = new Grid(10);
         placeOrganisms();
         moveTurn();
-        actionTurn();
-        turnTest();
+        behaviorTurn();
+        print();
     }
 
     private void placeOrganisms() {
@@ -26,16 +26,14 @@ public class GameEngine {
     private void moveTurn() {
         // Organisms move per there characteristics
         grid.moveLoop();
+    }
+
+    private void behaviorTurn() {
         // Organism behavior is evaluated in each square
         grid.evaluateLoop();
     }
 
-    private void actionTurn() {
-
-    }
-
-    private void turnTest() {
-
+    private void print() {
         grid.print();
     }
 
