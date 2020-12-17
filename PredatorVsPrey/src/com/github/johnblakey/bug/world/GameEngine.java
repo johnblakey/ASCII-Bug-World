@@ -4,16 +4,26 @@ public class GameEngine {
     private Grid grid;
 
     public static void main(String[] args) {
-        System.out.println("Bug World");
-
         GameEngine game = new GameEngine();
-        game.start();
+        int turns = 0;
+        if (args.length > 0) {
+            turns = Integer.parseInt(args[0]);
+        }
+        game.start(turns);
     }
 
-    public void start() {
+    public void start(int turns) {
         // Grid represents the world
         grid = new Grid(10);
         placeOrganisms();
+        print();
+
+        for (int i = 1; i <= turns; i++) {
+            moveTurn();
+            behaviorTurn();
+            print();
+        }
+
         print();
         moveTurn();
         behaviorTurn();
@@ -42,10 +52,11 @@ public class GameEngine {
     }
 
     private void print() {
-        // Clear console
+        // Clear console in terminal
         System.out.print("\033[H\033[2J");
         System.out.flush();
         grid.print();
+        System.out.print("\n\n");
     }
 
     // while loop needed for running simulation
