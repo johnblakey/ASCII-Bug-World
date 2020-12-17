@@ -6,19 +6,25 @@ public class GameEngine {
     public void start() {
         // Grid represents the world
         grid = new Grid(10);
+        placeOrganisms();
         turnTest();
     }
 
+    private void placeOrganisms() {
+        Organism ant = new Ant(0,1);
+        grid.addOrganism(ant);
+
+        Organism plant = new Plant(5, 5);
+        grid.addOrganism(plant);
+
+        Organism spider = new Spider(9, 9);
+        grid.addOrganism(spider);
+    }
+
     private void turnTest() {
-        Organism ant = new Ant();
-        grid.addOrganism(0, 1, ant);
-
-        Organism plant = new Plant();
-        grid.addOrganism(5, 5, plant);
-
-        Organism spider = new Spider();
-        grid.addOrganism(9, 9, spider);
 
         grid.print();
     }
+
+    // while loop needed for running simulation
 }

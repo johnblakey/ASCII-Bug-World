@@ -34,7 +34,9 @@ public class Grid {
         }
     }
 
-    public void addOrganism(int x, int y, Organism organism) {
+    public void addOrganism(Organism organism) {
+        int x = organism.getX();
+        int y = organism.getY();
         grid[x][y].add(organism);
     }
 
