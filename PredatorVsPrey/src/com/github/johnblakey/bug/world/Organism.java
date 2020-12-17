@@ -1,5 +1,9 @@
 package com.github.johnblakey.bug.world;
 
+import com.sun.tools.javac.util.Pair;
+
+import java.util.HashSet;
+
 abstract class Organism {
     private String symbol = " ";
     private int x;
@@ -20,7 +24,9 @@ abstract class Organism {
 
     abstract void die();
 
-    abstract void move();
+    abstract boolean move(HashSet<Organism> square);
+
+    abstract boolean moveEat(HashSet<Organism> square);
 
     public void performEat() {
         eatBehavior.eat();

@@ -7,6 +7,8 @@ public class GameEngine {
         // Grid represents the world
         grid = new Grid(10);
         placeOrganisms();
+        moveTurn();
+        actionTurn();
         turnTest();
     }
 
@@ -19,6 +21,17 @@ public class GameEngine {
 
         Organism spider = new Spider(9, 9);
         grid.addOrganism(spider);
+    }
+
+    private void moveTurn() {
+        // Organisms move per there characteristics
+        grid.moveLoop();
+        // Organism behavior is evaluated in each square
+        grid.evaluateLoop();
+    }
+
+    private void actionTurn() {
+
     }
 
     private void turnTest() {
