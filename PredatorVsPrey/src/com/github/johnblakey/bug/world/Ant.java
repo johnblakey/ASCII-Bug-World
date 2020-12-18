@@ -6,6 +6,8 @@ import java.util.Iterator;
 public class Ant extends Organism {
     Ant(int x, int y) {
         super("8", x, y);
+        eatBehavior = new Eat();
+
         int reproduceLimit = 5;
         setReproduceTurns(reproduceLimit);
         setReproduceTurnsLeft(reproduceLimit);

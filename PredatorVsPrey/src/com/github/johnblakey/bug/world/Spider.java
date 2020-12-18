@@ -6,6 +6,8 @@ import java.util.Iterator;
 public class Spider extends Organism {
     Spider(int x, int y) {
         super("X", x, y);
+        eatBehavior = new Eat();
+
         int reproduceLimit = 10;
         setReproduceTurns(reproduceLimit);
         setReproduceTurnsLeft(reproduceLimit);

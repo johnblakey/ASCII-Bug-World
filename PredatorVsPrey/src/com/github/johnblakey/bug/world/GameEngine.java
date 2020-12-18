@@ -17,12 +17,16 @@ public class GameEngine {
         game.start(turns, size);
     }
 
-    public void start(int turns, int size) {
+    private void start(int turns, int size) {
         // Grid represents the world
         grid = new Grid(size);
         placeOrganisms();
         print();
 
+        gameLoop(turns);
+    }
+
+    private void gameLoop(int turns) {
         for (int i = 1; i <= turns; i++) {
             moveTurn();
             behaviorTurn();
