@@ -1,5 +1,8 @@
 package com.github.johnblakey.bug.world;
 
+import java.util.Vector;
+import java.util.Random;
+
 public class GameEngine {
     private Grid grid;
 
@@ -10,17 +13,19 @@ public class GameEngine {
         int turns = 10;
         int size = 10;
 
-        if (args.length > 1) {
-            turns = Integer.parseInt(args[0]);
-            size = Integer.parseInt(args[1]);
-        }
-        game.start(turns, size);
+        if (args.length == 5) {
+            game.start(args);
+        } else
+            System.out.println("Incorrect arguments given for bug world, did you add the 5 ints needed?!");
     }
 
-    private void start(int turns, int size) {
+    private void start(String[] args) {
+        int turns = Integer.parseInt(args[0]);
+        int size = Integer.parseInt(args[1]);
+
         // Grid represents the world
         grid = new Grid(size);
-        placeOrganisms();
+        placeOrganisms(args);
         print();
 
         gameLoop(turns);
@@ -35,42 +40,55 @@ public class GameEngine {
     }
 
     // TODO random placement and option on how many of xyz to place
-    private void placeOrganisms() {
-        Organism ant1 = new Ant(0,1);
-        grid.addOrganism(ant1);
+    private void placeOrganisms(String[] args) {
+        int size = Integer.parseInt(args[1]);
+        int ants = Integer.parseInt(args[2]);
+        int spiders = Integer.parseInt(args[3]);
+        int plants = Integer.parseInt(args[4]);
 
-        Organism ant2 = new Ant(3,1);
-        grid.addOrganism(ant2);
+        // Create valid square coordinates
+        Vector<SquareCoordinates> squaresVector = new Vector<>();
+        for (int j = 0; j < size; j++) {
+            for (int k = 0; k < size; k++) {
+                SquareCoordinates squareCoordinates = new SquareCoordinates(j, k);
+                squaresVector.add(squareCoordinates);
+            }
+        }
 
-        Organism ant3 = new Ant(1,3);
-        grid.addOrganism(ant3);
+        for (int i = 0; i < ants; i++) {
+            SquareCoordinates randomEmptySquare = getRandomEmptySquare(squaresVector);
+            Ant ant = new Ant(0, 0);    // dummy values
+            createOrganism(randomEmptySquare, ant);
+        }
 
-        Organism plant1 = new Plant(0, 1);
-        grid.addOrganism(plant1);
+        for (int i = 0; i < spiders; i++) {
+            SquareCoordinates randomEmptySquare = getRandomEmptySquare(squaresVector);
+            Spider spider = new Spider(0, 0);    // dummy values
+            createOrganism(randomEmptySquare, spider);
+        }
 
-        Organism plant2 = new Plant(2, 2);
-        grid.addOrganism(plant2);
+        for (int i = 0; i < plants; i++) {
+            SquareCoordinates randomEmptySquare = getRandomEmptySquare(squaresVector);
+            Plant plant = new Plant(0, 0);    // dummy values
+            createOrganism(randomEmptySquare, plant);
+        }
 
-        Organism plant3 = new Plant(4, 4);
-        grid.addOrganism(plant3);
+    }
 
-        Organism plant4 = new Plant(2, 3);
-        grid.addOrganism(plant4);
+    private SquareCoordinates getRandomEmptySquare(Vector<SquareCoordinates> squaresVector) {
+        Random random = new Random();
 
-        Organism plant5 = new Plant(4, 0);
-        grid.addOrganism(plant5);
+        int max = squaresVector.size();
+        int randomInt = random.nextInt(max);
+        SquareCoordinates randomEmptySquare = squaresVector.get(randomInt);
+        squaresVector.remove(randomInt);
+        return randomEmptySquare;
+    }
 
-        Organism plant6 = new Plant(3, 3);
-        grid.addOrganism(plant6);
-
-        Organism spider1 = new Spider(1, 0);
-        grid.addOrganism(spider1);
-
-        Organism spider2 = new Spider(3, 3);
-        grid.addOrganism(spider2);
-
-        Organism spider3 = new Spider(4, 4);
-        grid.addOrganism(spider3);
+    private void createOrganism(SquareCoordinates squareCoordinates, Organism organism) {
+        organism.setX(squareCoordinates.getX());
+        organism.setY(squareCoordinates.getY());
+        grid.addOrganism(organism);
     }
 
     private void moveTurn() {
