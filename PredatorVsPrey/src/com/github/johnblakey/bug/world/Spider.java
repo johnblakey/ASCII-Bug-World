@@ -6,8 +6,13 @@ import java.util.Iterator;
 public class Spider extends Organism {
     Spider(int x, int y) {
         super("X", x, y);
-        setReproduceTurns(10);
-        setStarveTurns(5);
+        int reproduceLimit = 10;
+        setReproduceTurns(reproduceLimit);
+        setReproduceTurnsLeft(reproduceLimit);
+
+        int starveLimit = 5;
+        setStarveTurns(starveLimit);
+        setStarveTurnsLeft(starveLimit);
     }
 
     // TODO make random
@@ -39,6 +44,8 @@ public class Spider extends Organism {
 
     // TODO make random
     public boolean move(HashSet<Organism> square) {
+        setStarveTurns(getStarveTurnsLeft() - 1);
+
         // Move to an empty square
         if (square.size() == 0) {
             return true;
@@ -62,11 +69,7 @@ public class Spider extends Organism {
             return false;
     }
 
-    public boolean reproduce() {
-        return false;
-    }
-
-    public boolean die() {
+    public boolean reproduceLocation() {
         return false;
     }
 }

@@ -6,8 +6,13 @@ import java.util.Iterator;
 public class Ant extends Organism {
     Ant(int x, int y) {
         super("8", x, y);
-        setReproduceTurns(5);
-        setStarveTurns(10);
+        int reproduceLimit = 5;
+        setReproduceTurns(reproduceLimit);
+        setReproduceTurnsLeft(reproduceLimit);
+
+        int starveLimit = 10;
+        setStarveTurns(starveLimit);
+        setStarveTurnsLeft(starveLimit);
     }
 
     // TODO make random
@@ -64,11 +69,7 @@ public class Ant extends Organism {
             return false;
     }
 
-    public boolean reproduce() {
-        return false;
-    }
-
-    public boolean die() {
+    public boolean reproduceLocation() {
         return false;
     }
 }

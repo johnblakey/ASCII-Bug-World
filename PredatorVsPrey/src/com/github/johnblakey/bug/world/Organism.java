@@ -6,7 +6,7 @@ abstract class Organism {
     private String symbol = " ";
     private int x;
     private int y;
-    private boolean hasMoved;
+    private boolean isDone;
 
     private int reproduceTurns;
     private int starveTurns;
@@ -25,9 +25,23 @@ abstract class Organism {
         return symbol;
     };
 
-    abstract boolean reproduce();
+    public boolean reproduce() {
+        if (reproduceTurnsLeft == 0) {
+            setReproduceTurnsLeft(reproduceTurns);
+            return true;
+        }
+        else
+            return false;
+    };
 
-    abstract boolean die();
+    abstract boolean reproduceLocation();
+
+    public boolean die() {
+        if (starveTurnsLeft == 0)
+            return true;
+        else
+            return false;
+    }
 
     abstract boolean move(HashSet<Organism> square);
 
@@ -35,6 +49,7 @@ abstract class Organism {
 
     public void performEat() {
         eatBehavior.eat();
+        setStarveTurnsLeft(starveTurns);
     }
 
     public void setX(int x) {
@@ -54,32 +69,20 @@ abstract class Organism {
     }
 
 
-    public boolean getHasMoved() {
-        return hasMoved;
+    public boolean getIsDone() {
+        return isDone;
     }
 
-    public void setHasMoved(boolean set) {
-        hasMoved = set;
-    }
-
-    public int getReproduceTurns() {
-        return reproduceTurns;
+    public void setIsDone(boolean set) {
+        isDone = set;
     }
 
     public void setReproduceTurns(int reproduceTurns) {
         this.reproduceTurns = reproduceTurns;
     }
 
-    public int getStarveTurns() {
-        return starveTurns;
-    }
-
     public void setStarveTurns(int starveTurns) {
         this.starveTurns = starveTurns;
-    }
-
-    public int getReproduceTurnsLeft() {
-        return reproduceTurnsLeft;
     }
 
     public void setReproduceTurnsLeft(int reproduceTurnsLeft) {

@@ -62,15 +62,15 @@ public class Grid {
     public void resetMovedGrid() {
         for (int y = size - 1; y >= 0; y--) {
             for (int x = 0; x < size; x++) {
-                resetMovedSquare(grid[x][y]);
+                resetDoneSquares(grid[x][y]);
             }
         }
     }
 
-    public void resetMovedSquare(HashSet<Organism> square) {
+    public void resetDoneSquares(HashSet<Organism> square) {
         Iterator<Organism> i = square.iterator();
         while (i.hasNext()) {
-            i.next().setHasMoved(false);
+            i.next().setIsDone(false);
         }
     }
 
@@ -94,13 +94,40 @@ public class Grid {
 
     // TODO refactor
     private boolean checkSquareOrganism(Organism organism) {
-        if (organism.getHasMoved())
+        if (organism.getIsDone())
             return false;
 
-        int x = organism.getX();
-        int y = organism.getY();
+        Vector<SquareCoordinates> validSquares = getValidSquare(organism, organism.getX(), organism.getY());
 
-        // Check the 8 squares around the central location
+        // loop through adjacent squares - organism evaluates each if appropriate and move them if so
+        for (SquareCoordinates pair : validSquares) {
+            if (organism.moveEat(grid[pair.getX()][pair.getY()])) {
+                // Grid and Organism steps to move the organism
+                removeOrganism(organism);
+                organism.setX(pair.getX());
+                organism.setY(pair.getY());
+                addOrganism(organism);
+                organism.setIsDone(true);
+                return true;
+            }
+        }
+        for (SquareCoordinates pair : validSquares) {
+            if(organism.move(grid[pair.getX()][pair.getY()])) {
+                // Grid and Organism steps to move the organism
+                removeOrganism(organism);
+                organism.setX(pair.getX());
+                organism.setY(pair.getY());
+                addOrganism(organism);
+                organism.setIsDone(true);
+                return true;
+            }
+        }
+        // organism didn't move b/c no valid location existed
+        return false;
+    }
+
+    private Vector<SquareCoordinates> getValidSquare(Organism organism, int x, int y) {
+        // Validate 8 square around location is valid
         Vector<Integer> xAdjacent = new Vector<>();
         xAdjacent.add(x);
         Vector<Integer> yAdjacent = new Vector<>();
@@ -114,37 +141,10 @@ public class Grid {
         if (y + 1 < size)
             yAdjacent.add(y + 1);
 
-
-        Vector<SquareCoordinates> validSquares = findAdjacent(organism, xAdjacent, yAdjacent);
-
-        // loop through adjacent squares - organism evaluates each if appropriate and move them if so
-        for (SquareCoordinates pair : validSquares) {
-            if (organism.moveEat(grid[pair.getX()][pair.getY()])) {
-                // Grid and Organism steps to move the organism
-                removeOrganism(organism);
-                organism.setX(pair.getX());
-                organism.setY(pair.getY());
-                addOrganism(organism);
-                organism.setHasMoved(true);
-                return true;
-            }
-        }
-        for (SquareCoordinates pair : validSquares) {
-            if(organism.move(grid[pair.getX()][pair.getY()])) {
-                // Grid and Organism steps to move the organism
-                removeOrganism(organism);
-                organism.setX(pair.getX());
-                organism.setY(pair.getY());
-                addOrganism(organism);
-                organism.setHasMoved(true);
-                return true;
-            }
-        }
-        // organism didn't move b/c no valid location existed
-        return false;
+        return removeOriginalSquare(organism, xAdjacent, yAdjacent);
     }
 
-    private Vector<SquareCoordinates> findAdjacent(Organism organism, Vector<Integer> xV, Vector<Integer> yV) {
+    private Vector<SquareCoordinates> removeOriginalSquare(Organism organism, Vector<Integer> xV, Vector<Integer> yV) {
         Vector<SquareCoordinates> validSquares = new Vector<>();
         for (int x : xV) {
             for (int y : yV) {
@@ -158,6 +158,8 @@ public class Grid {
     }
 
     public void gridOrganismsSquareActions() {
+        resetMovedGrid();
+
         for (int y = size - 1; y >= 0; y--) {
             for (int x = 0; x < size; x++) {
                 squareOrganismsActions(grid[x][y]);
@@ -178,6 +180,18 @@ public class Grid {
         Iterator<Organism> i = square.iterator();
         while (i.hasNext()) {
             Organism next = i.next();
+
+            if(next.die()) {
+                Organism temp = next;
+                removeOrganism(temp);
+                if (i.hasNext())
+                    next = i.next();
+            }
+
+            if(next.reproduce()) {
+                reproduceOrganism(next);
+            }
+
             if (next instanceof Plant) {
                 hasPlant = true;
                 plant = next;
@@ -191,12 +205,25 @@ public class Grid {
             }
         }
 
-        // drive evaluation (TODO refactor to organisms -> grid knows too much)
+        // Eating (TODO refactor to organisms -> grid knows too much)
         if (hasSpider && hasAnt) {
+            spider.performEat();
             removeOrganism(ant);
         } else if (hasAnt && hasPlant) {
+            ant.performEat();
             removeOrganism(plant);
         }
     }
 
+    private void reproduceOrganism(Organism organism) {
+        Vector<SquareCoordinates> validSquares = getValidSquare(organism, organism.getX(), organism.getY());
+
+        // loop through valid squares
+        for (SquareCoordinates pair : validSquares) {
+            // TODO do another method to determine which square has empty space for a baby? Base on boolean like above
+            if(!organism.getIsDone()) {
+                // Grid and Organism steps to reproduce
+            }
+        }
+    }
 }

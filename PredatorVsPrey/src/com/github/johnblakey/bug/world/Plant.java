@@ -5,8 +5,13 @@ import java.util.HashSet;
 public class Plant extends Organism {
     Plant(int x, int y) {
         super("*", x, y);
-        setReproduceTurns(3);
-        setStarveTurns(10);
+        int reproduceLimit = 3;
+        setReproduceTurns(reproduceLimit);
+        setReproduceTurnsLeft(reproduceLimit);
+
+        int starveLimit = 10;
+        setStarveTurns(starveLimit);
+        setStarveTurnsLeft(starveLimit);
     }
 
     public boolean moveEat(HashSet<Organism> organisms) {
@@ -17,11 +22,7 @@ public class Plant extends Organism {
         return false;
     }
 
-    public boolean reproduce() {
-        return false;
-    }
-
-    public boolean  die() {
+    public boolean reproduceLocation() {
         return false;
     }
 }
