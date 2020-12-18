@@ -221,18 +221,19 @@ public class Grid {
         }
     }
 
+    // TODO refactor, too many nested ifs
     private void reproduceOrganism(Organism organism) {
         Vector<SquareCoordinates> validSquares = getValidSquare(organism, organism.getX(), organism.getY());
 
         // loop through valid squares
         for (SquareCoordinates squareCoordinates : validSquares) {
-            // TODO do another method to determine which square has empty space for a baby? Base on boolean like above
             if(!organism.getIsDone()) {
                 // Grid and Organism steps to reproduce
                 if (organism.reproduce()) {
-                    if (organism.validReproduceSquare()) {
-                        // TODO create way to create a new type of organism
-                        Organism baby = new instanceof organism
+                    if (organism.validReproduceSquare(grid[squareCoordinates.getX()][squareCoordinates.getY()])) {
+                        Organism baby = organism.createOffspring(squareCoordinates);
+                        addOrganism(baby);
+                        baby.setIsDone(true);
                     }
                 }
             }

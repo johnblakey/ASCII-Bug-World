@@ -34,7 +34,7 @@ abstract class Organism {
             return false;
     };
 
-    abstract boolean validReproduceSquare();
+    abstract boolean validReproduceSquare(HashSet<Organism> square);
 
     public boolean die() {
         if (starveTurnsLeft == 0)
@@ -42,6 +42,8 @@ abstract class Organism {
         else
             return false;
     }
+
+    abstract Organism createOffspring(SquareCoordinates squareCoordinates);
 
     abstract boolean moveToEat(HashSet<Organism> square);
 

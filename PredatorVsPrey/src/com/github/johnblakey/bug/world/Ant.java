@@ -46,6 +46,14 @@ public class Ant extends Organism {
 
     // TODO make random
     public boolean move(HashSet<Organism> square) {
+        return validateIfReproduceOrMove(square);
+    }
+
+    public boolean validReproduceSquare(HashSet<Organism> square) {
+        return validateIfReproduceOrMove(square);
+    }
+
+    private boolean validateIfReproduceOrMove(HashSet<Organism> square) {
         // Move to an empty square
         if (square.size() == 0) {
             return true;
@@ -71,7 +79,7 @@ public class Ant extends Organism {
             return false;
     }
 
-    public boolean validReproduceSquare() {
-        return false;
+    public Organism createOffspring(SquareCoordinates squareCoordinates) {
+        return new Ant(squareCoordinates.getX(), squareCoordinates.getY());
     }
 }
