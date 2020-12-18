@@ -27,14 +27,14 @@ abstract class Organism {
 
     public boolean reproduce() {
         if (reproduceTurnsLeft == 0) {
-            setReproduceTurnsLeft(reproduceTurns);
+            resetReproductionTurnsLeft();
             return true;
         }
         else
             return false;
     };
 
-    abstract boolean reproduceLocation();
+    abstract boolean validReproduceSquare();
 
     public boolean die() {
         if (starveTurnsLeft == 0)
@@ -43,13 +43,13 @@ abstract class Organism {
             return false;
     }
 
+    abstract boolean moveToEat(HashSet<Organism> square);
+
     abstract boolean move(HashSet<Organism> square);
 
-    abstract boolean moveEat(HashSet<Organism> square);
-
     public void performEat() {
+        resetStarveTurnsLeft();
         eatBehavior.eat();
-        setStarveTurnsLeft(starveTurns);
     }
 
     public void setX(int x) {
@@ -68,7 +68,6 @@ abstract class Organism {
         return y;
     }
 
-
     public boolean getIsDone() {
         return isDone;
     }
@@ -81,19 +80,31 @@ abstract class Organism {
         this.reproduceTurns = reproduceTurns;
     }
 
-    public void setStarveTurns(int starveTurns) {
-        this.starveTurns = starveTurns;
-    }
-
     public void setReproduceTurnsLeft(int reproduceTurnsLeft) {
         this.reproduceTurnsLeft = reproduceTurnsLeft;
     }
 
-    public int getStarveTurnsLeft() {
-        return starveTurnsLeft;
+    public void setStarveTurns(int starveTurns) {
+        this.starveTurns = starveTurns;
     }
 
     public void setStarveTurnsLeft(int starveTurnsLeft) {
         this.starveTurnsLeft = starveTurnsLeft;
+    }
+
+    public void decrementStarveTurnsLeft() {
+        --starveTurnsLeft;
+    }
+
+    public void decrementReproductionTurnsLeft() {
+        --reproduceTurnsLeft;
+    }
+
+    private void resetReproductionTurnsLeft() {
+        reproduceTurnsLeft = reproduceTurns;
+    }
+
+    private void resetStarveTurnsLeft() {
+        starveTurnsLeft = starveTurns;
     }
 }

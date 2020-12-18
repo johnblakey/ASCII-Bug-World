@@ -18,7 +18,7 @@ public class Spider extends Organism {
     }
 
     // TODO make random
-    public boolean moveEat(HashSet<Organism> square) {
+    public boolean moveToEat(HashSet<Organism> square) {
         // Empty square has no food
         if (square.size() == 0)
             return false;
@@ -46,8 +46,6 @@ public class Spider extends Organism {
 
     // TODO make random
     public boolean move(HashSet<Organism> square) {
-        setStarveTurns(getStarveTurnsLeft() - 1);
-
         // Move to an empty square
         if (square.size() == 0) {
             return true;
@@ -71,7 +69,7 @@ public class Spider extends Organism {
             return false;
     }
 
-    public boolean reproduceLocation() {
+    public boolean validReproduceSquare() {
         return false;
     }
 }

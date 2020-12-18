@@ -18,7 +18,7 @@ public class Ant extends Organism {
     }
 
     // TODO make random
-    public boolean moveEat(HashSet<Organism> square) {
+    public boolean moveToEat(HashSet<Organism> square) {
         // Empty square has no food
         if (square.size() == 0)
             return false;
@@ -71,7 +71,7 @@ public class Ant extends Organism {
             return false;
     }
 
-    public boolean reproduceLocation() {
+    public boolean validReproduceSquare() {
         return false;
     }
 }

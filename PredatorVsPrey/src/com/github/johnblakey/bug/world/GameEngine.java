@@ -39,23 +39,26 @@ public class GameEngine {
         Organism ant = new Ant(0,0);
         grid.addOrganism(ant);
 
-        Organism plant1 = new Plant(0, 2);
-        grid.addOrganism(plant1);
+        Organism ant0 = new Ant(0,1);
+        grid.addOrganism(ant0);
 
-        Organism ant1 = new Ant(0,1);
+        Organism ant1 = new Ant(1,1);
         grid.addOrganism(ant1);
 
-        Organism spider1 = new Spider(3, 4);
+//        Organism plant1 = new Plant(0, 1);
+//        grid.addOrganism(plant1);
+
+        Organism spider1 = new Spider(1, 0);
         grid.addOrganism(spider1);
-
-        Organism spider2 = new Spider(1, 1);
-        grid.addOrganism(spider2);
-
-        Organism plant = new Plant(2, 2);
-        grid.addOrganism(plant);
-
-        Organism spider = new Spider(4, 4);
-        grid.addOrganism(spider);
+//
+//        Organism spider2 = new Spider(1, 1);
+//        grid.addOrganism(spider2);
+//
+//        Organism plant = new Plant(2, 2);
+//        grid.addOrganism(plant);
+//
+//        Organism spider = new Spider(4, 4);
+//        grid.addOrganism(spider);
     }
 
     private void moveTurn() {

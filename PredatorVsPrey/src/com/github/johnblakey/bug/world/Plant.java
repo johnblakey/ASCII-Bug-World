@@ -16,7 +16,7 @@ public class Plant extends Organism {
         setStarveTurnsLeft(starveLimit);
     }
 
-    public boolean moveEat(HashSet<Organism> organisms) {
+    public boolean moveToEat(HashSet<Organism> organisms) {
         return false;
     }
 
@@ -24,7 +24,7 @@ public class Plant extends Organism {
         return false;
     }
 
-    public boolean reproduceLocation() {
+    public boolean validReproduceSquare() {
         return false;
     }
 }

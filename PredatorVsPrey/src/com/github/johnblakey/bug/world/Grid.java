@@ -1,5 +1,7 @@
 package com.github.johnblakey.bug.world;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
@@ -97,33 +99,37 @@ public class Grid {
         if (organism.getIsDone())
             return false;
 
+        // The time to death and reproduction drops by one turn
+        organism.decrementStarveTurnsLeft();
+        organism.decrementReproductionTurnsLeft();
+
         Vector<SquareCoordinates> validSquares = getValidSquare(organism, organism.getX(), organism.getY());
 
         // loop through adjacent squares - organism evaluates each if appropriate and move them if so
-        for (SquareCoordinates pair : validSquares) {
-            if (organism.moveEat(grid[pair.getX()][pair.getY()])) {
-                // Grid and Organism steps to move the organism
-                removeOrganism(organism);
-                organism.setX(pair.getX());
-                organism.setY(pair.getY());
-                addOrganism(organism);
-                organism.setIsDone(true);
+        // moveToEat first, move next
+        for (SquareCoordinates squareCoordinates : validSquares) {
+            if (organism.moveToEat(grid[squareCoordinates.getX()][squareCoordinates.getY()])) {
+                gridMoveOrganism(organism, squareCoordinates);
                 return true;
             }
         }
-        for (SquareCoordinates pair : validSquares) {
-            if(organism.move(grid[pair.getX()][pair.getY()])) {
-                // Grid and Organism steps to move the organism
-                removeOrganism(organism);
-                organism.setX(pair.getX());
-                organism.setY(pair.getY());
-                addOrganism(organism);
-                organism.setIsDone(true);
+        for (SquareCoordinates squareCoordinates : validSquares) {
+            if(organism.move(grid[squareCoordinates.getX()][squareCoordinates.getY()])) {
+                gridMoveOrganism(organism, squareCoordinates);
                 return true;
             }
         }
         // organism didn't move b/c no valid location existed
         return false;
+    }
+
+    private void gridMoveOrganism(Organism organism, SquareCoordinates squareCoordinates) {
+        // Grid and Organism steps to move the organism
+        removeOrganism(organism);
+        organism.setX(squareCoordinates.getX());
+        organism.setY(squareCoordinates.getY());
+        addOrganism(organism);
+        organism.setIsDone(true);
     }
 
     private Vector<SquareCoordinates> getValidSquare(Organism organism, int x, int y) {
@@ -182,8 +188,7 @@ public class Grid {
             Organism next = i.next();
 
             if(next.die()) {
-                Organism temp = next;
-                removeOrganism(temp);
+                removeOrganism(next);
                 if (i.hasNext())
                     next = i.next();
             }
@@ -202,6 +207,7 @@ public class Grid {
             }
             else if (next instanceof Spider) {
                 hasSpider = true;
+                spider = next;
             }
         }
 
@@ -219,10 +225,16 @@ public class Grid {
         Vector<SquareCoordinates> validSquares = getValidSquare(organism, organism.getX(), organism.getY());
 
         // loop through valid squares
-        for (SquareCoordinates pair : validSquares) {
+        for (SquareCoordinates squareCoordinates : validSquares) {
             // TODO do another method to determine which square has empty space for a baby? Base on boolean like above
             if(!organism.getIsDone()) {
                 // Grid and Organism steps to reproduce
+                if (organism.reproduce()) {
+                    if (organism.validReproduceSquare()) {
+                        // TODO create way to create a new type of organism
+                        Organism baby = new instanceof organism
+                    }
+                }
             }
         }
     }
