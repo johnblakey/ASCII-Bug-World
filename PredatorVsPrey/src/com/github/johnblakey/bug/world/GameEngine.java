@@ -9,10 +9,6 @@ public class GameEngine {
     public static void main(String[] args) {
         GameEngine game = new GameEngine();
 
-        // Default turns and size
-        int turns = 10;
-        int size = 10;
-
         if (args.length == 5) {
             game.start(args);
         } else
@@ -72,7 +68,6 @@ public class GameEngine {
             Plant plant = new Plant(0, 0);    // dummy values
             createOrganism(randomEmptySquare, plant);
         }
-
     }
 
     private SquareCoordinates getRandomEmptySquare(Vector<SquareCoordinates> squaresVector) {
