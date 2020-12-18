@@ -231,13 +231,11 @@ public class Grid {
         for (SquareCoordinates squareCoordinates : validSquares) {
             if(!organism.getIsDone()) {
                 // Grid and Organism steps to reproduce
-                if (organism.reproduce()) {
-                    if (organism.validReproduceSquare(grid[squareCoordinates.getX()][squareCoordinates.getY()])) {
-                        Organism baby = organism.createOffspring(squareCoordinates);
-                        addOrganism(baby);
-                        // baby doesn't move the same turn it is born
-                        baby.setIsDone(true);
-                    }
+                if (organism.validReproduceSquare(grid[squareCoordinates.getX()][squareCoordinates.getY()])) {
+                    Organism baby = organism.createOffspring(squareCoordinates);
+                    addOrganism(baby);
+                    // baby doesn't move the same turn it is born
+                    baby.setIsDone(true);
                 }
             }
         }

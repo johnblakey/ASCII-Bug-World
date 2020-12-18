@@ -12,7 +12,7 @@ public class Plant extends Organism {
         setReproduceTurns(reproduceLimit);
         setReproduceTurnsLeft(reproduceLimit);
 
-        int starveLimit = 10;
+        int starveLimit = 12;
         setStarveTurns(starveLimit);
         setStarveTurnsLeft(starveLimit);
     }
