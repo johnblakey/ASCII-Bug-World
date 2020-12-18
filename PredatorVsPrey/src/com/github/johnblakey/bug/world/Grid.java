@@ -186,26 +186,30 @@ public class Grid {
             Organism next = i.next();
 
             if(next.die()) {
-                removeOrganism(next);
-                if (i.hasNext())
-                    next = i.next();
-            }
+                // Below lines is causing ConcurrentModificationException https://www.baeldung.com/java-concurrentmodificationexception
+//                removeOrganism(next);
+//                if (i.hasNext())
+//                    next = i.next();
 
-            if(next.reproduce()) {
+                i.remove();
+                next = null;
+            } else if(next.reproduce()) {
                 reproduceOrganism(next);
             }
-
-            if (next instanceof Plant) {
-                hasPlant = true;
-                plant = next;
-            }
-            else if (next instanceof Ant) {
-                hasAnt = true;
-                ant = next;
-            }
-            else if (next instanceof Spider) {
-                hasSpider = true;
-                spider = next;
+            // TODO hacky check of null value
+            if (next != null) {
+                if (next instanceof Plant) {
+                    hasPlant = true;
+                    plant = next;
+                }
+                else if (next instanceof Ant) {
+                    hasAnt = true;
+                    ant = next;
+                }
+                else if (next instanceof Spider) {
+                    hasSpider = true;
+                    spider = next;
+                }
             }
         }
 
