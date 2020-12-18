@@ -1,7 +1,5 @@
 package com.github.johnblakey.bug.world;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
@@ -233,6 +231,7 @@ public class Grid {
                     if (organism.validReproduceSquare(grid[squareCoordinates.getX()][squareCoordinates.getY()])) {
                         Organism baby = organism.createOffspring(squareCoordinates);
                         addOrganism(baby);
+                        // baby doesn't move the same turn it is born
                         baby.setIsDone(true);
                     }
                 }

@@ -44,8 +44,15 @@ public class Spider extends Organism {
             return false;
     }
 
-    // TODO make random
     public boolean move(HashSet<Organism> square) {
+        return validateIfReproduceOrMove(square);
+    }
+
+    public boolean validReproduceSquare(HashSet<Organism> square) {
+        return validateIfReproduceOrMove(square);
+    }
+
+    private boolean validateIfReproduceOrMove(HashSet<Organism> square) {
         // Move to an empty square
         if (square.size() == 0) {
             return true;
@@ -62,14 +69,14 @@ public class Spider extends Organism {
                 hasSpider = true;
             }
         }
-        // Spider won't move to a square with a spider
+        // Spider won't move or reproduce to a square with a spider
         if (!hasSpider)
             return true;
         else
             return false;
     }
 
-    public boolean validReproduceSquare() {
-        return false;
+    public Organism createOffspring(SquareCoordinates squareCoordinates) {
+        return new Spider(squareCoordinates.getX(), squareCoordinates.getY());
     }
 }

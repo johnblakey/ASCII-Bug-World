@@ -72,7 +72,7 @@ public class Ant extends Organism {
             } else if (next instanceof Ant)
                 hasAnt = true;
         }
-        // Ant won't move to a square to get eaten or beside another ant
+        // Ant won't move or reproduce to a square to get eaten or beside another ant
         if (!hasSpider && !hasAnt)
             return true;
         else
