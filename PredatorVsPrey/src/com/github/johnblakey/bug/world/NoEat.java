@@ -4,5 +4,4 @@ public class NoEat implements EatBehavior {
     public void eat() {
         // Do nothing - plants don't eat
     }
-
 }
