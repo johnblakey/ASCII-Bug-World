@@ -8,7 +8,7 @@ public class Plant extends Organism {
         super("*", x, y);
         eatBehavior = new NoEat();
 
-        int reproduceLimit = 3;
+        int reproduceLimit = 4;
         setReproduceTurns(reproduceLimit);
         setReproduceTurnsLeft(reproduceLimit);
 

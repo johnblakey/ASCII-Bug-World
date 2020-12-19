@@ -29,14 +29,14 @@ public class Grid {
     // TODO improve the printing for fixed width that can handle up to 3 organisms
     public void print() {
         for (int y = size - 1; y >= 0; y--) {
-            System.out.print("|");
+//            System.out.print("|");
             for (int x = 0; x < size; x++) {
                 // print empty space based on organism population
                 for (int i = 0; i < totalOrganismTypes - grid[x][y].size(); i++) {
                     System.out.print(" ");
                 }
                 displayOrganisms(grid[x][y]);
-                System.out.print("|");
+//                System.out.print("|");
             }
             System.out.print("\n");
         }
@@ -199,11 +199,6 @@ public class Grid {
             Organism next = i.next();
 
             if(next.die()) {
-                // Below lines is causing ConcurrentModificationException https://www.baeldung.com/java-concurrentmodificationexception
-//                removeOrganism(next);
-//                if (i.hasNext())
-//                    next = i.next();
-
                 i.remove();
                 next = null;
             } else if(next.reproduce()) {

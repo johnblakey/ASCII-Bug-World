@@ -5,14 +5,14 @@ import java.util.Iterator;
 
 public class Spider extends Organism {
     Spider(int x, int y) {
-        super("X", x, y);
+        super("#", x, y);
         eatBehavior = new Eat();
 
-        int reproduceLimit = 10;
+        int reproduceLimit = 15;
         setReproduceTurns(reproduceLimit);
         setReproduceTurnsLeft(reproduceLimit);
 
-        int starveLimit = 9;
+        int starveLimit = 14;
         setStarveTurns(starveLimit);
         setStarveTurnsLeft(starveLimit);
     }
