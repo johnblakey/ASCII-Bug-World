@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class GameEngine {
     private Grid grid;
+    private int timeSleep = 300;
 
     public static void main(String[] args) {
         GameEngine game = new GameEngine();
@@ -24,6 +25,12 @@ public class GameEngine {
         placeOrganisms(args);
         print();
 
+        try {
+            Thread.sleep(timeSleep);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         gameLoop(turns);
     }
 
@@ -32,6 +39,13 @@ public class GameEngine {
             moveTurn();
             behaviorTurn();
             print();
+
+            try {
+                Thread.sleep(timeSleep);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
