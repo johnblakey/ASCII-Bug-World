@@ -8,11 +8,11 @@ public class Ant extends Organism {
         super("8", x, y);
         eatBehavior = new Eat();
 
-        int reproduceLimit = 2;
+        int reproduceLimit = 5;
         setReproduceTurns(reproduceLimit);
         setReproduceTurnsLeft(reproduceLimit);
 
-        int starveLimit = 10;
+        int starveLimit = 4;
         setStarveTurns(starveLimit);
         setStarveTurnsLeft(starveLimit);
     }

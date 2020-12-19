@@ -49,7 +49,6 @@ public class GameEngine {
         }
     }
 
-    // TODO random placement and option on how many of xyz to place
     private void placeOrganisms(String[] args) {
         int size = Integer.parseInt(args[1]);
         int ants = Integer.parseInt(args[2]);

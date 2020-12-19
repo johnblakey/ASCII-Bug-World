@@ -8,11 +8,11 @@ public class Spider extends Organism {
         super("X", x, y);
         eatBehavior = new Eat();
 
-        int reproduceLimit = 2;
+        int reproduceLimit = 10;
         setReproduceTurns(reproduceLimit);
         setReproduceTurnsLeft(reproduceLimit);
 
-        int starveLimit = 10;
+        int starveLimit = 9;
         setStarveTurns(starveLimit);
         setStarveTurnsLeft(starveLimit);
     }

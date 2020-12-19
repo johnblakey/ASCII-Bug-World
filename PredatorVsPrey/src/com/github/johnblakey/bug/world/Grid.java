@@ -2,6 +2,7 @@ package com.github.johnblakey.bug.world;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Vector;
 
 public class Grid {
@@ -103,22 +104,34 @@ public class Grid {
 
         Vector<SquareCoordinates> validSquares = getValidSquare(organism, organism.getX(), organism.getY());
 
-        // loop through adjacent squares - organism evaluates each if appropriate and move them if so
+        // grab a random valid square (decision number input) - organism evaluates each if appropriate
         // moveToEat first, move next
-        for (SquareCoordinates squareCoordinates : validSquares) {
-            if (organism.moveToEat(grid[squareCoordinates.getX()][squareCoordinates.getY()])) {
-                gridMoveOrganism(organism, squareCoordinates);
+        int decisionNumber = 15;
+        for (int i = 0; i < decisionNumber; i++) {
+            SquareCoordinates validSquare  = getRandomSquare(validSquares);
+            if (organism.moveToEat(grid[validSquare.getX()][validSquare.getY()])) {
+                gridMoveOrganism(organism, validSquare);
                 return true;
             }
         }
-        for (SquareCoordinates squareCoordinates : validSquares) {
-            if(organism.move(grid[squareCoordinates.getX()][squareCoordinates.getY()])) {
-                gridMoveOrganism(organism, squareCoordinates);
+
+        for (int i = 0; i < decisionNumber; i++) {
+            SquareCoordinates validSquare  = getRandomSquare(validSquares);
+            if (organism.move(grid[validSquare.getX()][validSquare.getY()])) {
+                gridMoveOrganism(organism, validSquare);
                 return true;
             }
         }
         // organism didn't move b/c no valid location existed
         return false;
+    }
+
+    private SquareCoordinates getRandomSquare(Vector<SquareCoordinates> squaresVector) {
+        Random random = new Random();
+
+        int max = squaresVector.size();
+        int randomInt = random.nextInt(max);
+        return squaresVector.get(randomInt);
     }
 
     private void gridMoveOrganism(Organism organism, SquareCoordinates squareCoordinates) {
