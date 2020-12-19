@@ -229,6 +229,8 @@ public class Grid {
 
         // loop through valid squares
         for (SquareCoordinates squareCoordinates : validSquares) {
+            boolean gaveBirth = false;
+
             if(!organism.getIsDone()) {
                 // Grid and Organism steps to reproduce
                 if (organism.validReproduceSquare(grid[squareCoordinates.getX()][squareCoordinates.getY()])) {
@@ -236,6 +238,8 @@ public class Grid {
                     addOrganism(baby);
                     // baby doesn't move the same turn it is born
                     baby.setIsDone(true);
+                    // TODO hacky way to exit the loop (remove)
+                    return;
                 }
             }
         }

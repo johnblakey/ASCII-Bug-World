@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class GameEngine {
     private Grid grid;
-    private int timeSleep = 300;
+    private int timeSleep = 200;
 
     public static void main(String[] args) {
         GameEngine game = new GameEngine();
