@@ -5,16 +5,8 @@ import java.util.Iterator;
 
 public class Spider extends Organism {
     Spider(int x, int y) {
-        super("#", x, y);
+        super("#", x, y, 35, 30, 10);
         eatBehavior = new Eat();
-
-        int reproduceLimit = 35;
-        setReproduceTurns(reproduceLimit);
-        setReproduceTurnsLeft(reproduceLimit);
-
-        int starveLimit = 30;
-        setStarveTurns(starveLimit);
-        setStarveTurnsLeft(starveLimit);
     }
 
     // TODO make random

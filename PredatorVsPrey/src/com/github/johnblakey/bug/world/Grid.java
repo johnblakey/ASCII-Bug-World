@@ -157,7 +157,7 @@ public class Grid {
         }
     }
 
-    // TODO refactor
+    // TODO refactor - grid should not hold logic on what animals are eaten
     // Grid will evaluate square and determine what animals are eaten based on interactions
     private void squareOrganismsActions(HashSet<Organism> square) {
         boolean hasPlant = false;
@@ -174,10 +174,10 @@ public class Grid {
             if(next.die()) {
                 i.remove();
                 next = null;
-            } else if(next.reproduce()) {
+            } else if(next.shouldReproduce()) {
                 reproduceOrganism(next);
             }
-            // TODO hacky check of null value
+            // TODO hacky check of null value from i.remove() usage above
             if (next != null) {
                 if (next instanceof Plant) {
                     hasPlant = true;
@@ -194,11 +194,11 @@ public class Grid {
             }
         }
 
-        // Eating (TODO refactor to organisms -> grid knows too much)
-        if (hasSpider && hasAnt) {
+        // Eating (TODO refactor to organisms -> grid knows too much) remove dependency with spider check
+        if (hasSpider && hasAnt && spider.getEatTurnsLeft() == 0) {
             spider.performEat();
             removeOrganism(ant);
-        } else if (hasAnt && hasPlant) {
+        } else if (hasAnt && hasPlant && ant.getEatTurnsLeft() == 0) {
             ant.performEat();
             removeOrganism(plant);
         }
@@ -210,8 +210,6 @@ public class Grid {
 
         // loop through valid squares
         for (SquareCoordinates squareCoordinates : validSquares) {
-            boolean gaveBirth = false;
-
             if(!organism.getIsDone()) {
                 // Grid and Organism steps to reproduce
                 if (organism.validReproduceSquare(grid[squareCoordinates.getX()][squareCoordinates.getY()])) {

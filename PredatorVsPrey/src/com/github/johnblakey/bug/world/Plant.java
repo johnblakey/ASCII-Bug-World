@@ -5,16 +5,9 @@ import java.util.Iterator;
 
 public class Plant extends Organism {
     Plant(int x, int y) {
-        super("*", x, y);
+        // TODO refactor to not have to enter a dummy value of 0
+        super("*", x, y, 8, 25, 0);
         eatBehavior = new NoEat();
-
-        int reproduceLimit = 8;
-        setReproduceTurns(reproduceLimit);
-        setReproduceTurnsLeft(reproduceLimit);
-
-        int starveLimit = 25;
-        setStarveTurns(starveLimit);
-        setStarveTurnsLeft(starveLimit);
     }
 
     public boolean moveToEat(HashSet<Organism> organisms) {

@@ -5,16 +5,8 @@ import java.util.Iterator;
 
 public class Ant extends Organism {
     Ant(int x, int y) {
-        super("8", x, y);
+        super("8", x, y, 21, 20, 4);
         eatBehavior = new Eat();
-
-        int reproduceLimit = 21;
-        setReproduceTurns(reproduceLimit);
-        setReproduceTurnsLeft(reproduceLimit);
-
-        int starveLimit = 20;
-        setStarveTurns(starveLimit);
-        setStarveTurnsLeft(starveLimit);
     }
 
     // TODO make random

@@ -11,23 +11,36 @@ abstract class Organism {
     private boolean isDone;
 
     private int reproduceTurns;
-    private int starveTurns;
     private int reproduceTurnsLeft;
+
+    private int starveTurns;
     private int starveTurnsLeft;
+
+    private int eatTurns;
+    private int eatTurnLeft;
 
     EatBehavior eatBehavior;
 
-    Organism(String symbol, int x, int y) {
+    Organism(String symbol, int x, int y, int reproduceTurns, int starveTurns, int eatTurns) {
+        this.symbol = symbol;
         this.x = x;
         this.y = y;
-        this.symbol = symbol;
+
+        this.reproduceTurns = reproduceTurns;
+        this.reproduceTurnsLeft = reproduceTurns;
+
+        this.starveTurns = starveTurns;
+        this.starveTurnsLeft = starveTurns;
+
+        this.eatTurns = eatTurns;
+        this.eatTurnLeft = eatTurns;
     }
 
     public String getSymbol() {
         return symbol;
     };
 
-    public boolean reproduce() {
+    public boolean shouldReproduce() {
         if (reproduceTurnsLeft == 0) {
             resetReproductionTurnsLeft();
             return true;
@@ -51,9 +64,9 @@ abstract class Organism {
         if (getIsDone())
             return null;
 
-        // The time to death and reproduction drops by one turn
         decrementStarveTurnsLeft();
         decrementReproductionTurnsLeft();
+        decrementEatTurnsLeft();
 
         // grab a random valid square (decision number input) - organism evaluates each if appropriate
         // moveToEat first, move next
@@ -72,7 +85,7 @@ abstract class Organism {
                 return validSquare;
             }
         }
-        // organism didn't move b/c no found valid location found
+
         return null;
     }
 
@@ -88,9 +101,9 @@ abstract class Organism {
 
     abstract boolean move(HashSet<Organism> square);
 
+    // TODO refactor injecting object not good design
     public void performEat() {
-        resetStarveTurnsLeft();
-        eatBehavior.eat();
+        eatBehavior.eat(this);
     }
 
     public void setX(int x) {
@@ -117,27 +130,15 @@ abstract class Organism {
         isDone = set;
     }
 
-    public void setReproduceTurns(int reproduceTurns) {
-        this.reproduceTurns = reproduceTurns;
-    }
-
-    public void setReproduceTurnsLeft(int reproduceTurnsLeft) {
-        this.reproduceTurnsLeft = reproduceTurnsLeft;
-    }
-
-    public void setStarveTurns(int starveTurns) {
-        this.starveTurns = starveTurns;
-    }
-
-    public void setStarveTurnsLeft(int starveTurnsLeft) {
-        this.starveTurnsLeft = starveTurnsLeft;
-    }
-
     public void decrementStarveTurnsLeft() {
         --starveTurnsLeft;
     }
 
-    public void decrementReproductionTurnsLeft() {
+    public void resetStarveTurnsLeft() {
+        starveTurnsLeft = starveTurns;
+    }
+
+    private void decrementReproductionTurnsLeft() {
         --reproduceTurnsLeft;
     }
 
@@ -145,7 +146,15 @@ abstract class Organism {
         reproduceTurnsLeft = reproduceTurns;
     }
 
-    private void resetStarveTurnsLeft() {
-        starveTurnsLeft = starveTurns;
+     private void decrementEatTurnsLeft() {
+        --eatTurnLeft;
+    }
+
+    public void resetEatTurnsLeft() {
+        eatTurnLeft = eatTurns;
+    }
+
+    public int getEatTurnsLeft() {
+        return eatTurnLeft;
     }
 }
