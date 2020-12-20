@@ -8,11 +8,11 @@ public class Plant extends Organism {
         super("*", x, y);
         eatBehavior = new NoEat();
 
-        int reproduceLimit = 4;
+        int reproduceLimit = 8;
         setReproduceTurns(reproduceLimit);
         setReproduceTurnsLeft(reproduceLimit);
 
-        int starveLimit = 12;
+        int starveLimit = 25;
         setStarveTurns(starveLimit);
         setStarveTurnsLeft(starveLimit);
     }
