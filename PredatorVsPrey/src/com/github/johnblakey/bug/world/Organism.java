@@ -9,6 +9,7 @@ abstract class Organism {
     private int x;
     private int y;
     private boolean isDone;
+    private boolean hasEaten = false;
 
     private int reproduceTurns;
     private int reproduceTurnsLeft;
@@ -41,8 +42,9 @@ abstract class Organism {
     };
 
     public boolean shouldReproduce() {
-        if (reproduceTurnsLeft == 0) {
+        if (reproduceTurnsLeft <= 0 && hasEaten) {
             resetReproductionTurnsLeft();
+            resetHasEaten();
             return true;
         }
         else
@@ -156,5 +158,13 @@ abstract class Organism {
 
     public int getEatTurnsLeft() {
         return eatTurnLeft;
+    }
+
+    public void setHasEatenTrue() {
+        hasEaten = true;
+    }
+
+    public void resetHasEaten() {
+        hasEaten = false;
     }
 }
