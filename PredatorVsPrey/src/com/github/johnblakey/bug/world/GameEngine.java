@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class GameEngine {
     private Grid grid;
-    private int timeSleep = 200;
+    private int timeSleep = 100;
 
     public static void main(String[] args) {
         GameEngine game = new GameEngine();
@@ -37,7 +37,7 @@ public class GameEngine {
     private void gameLoop(int turns) {
         for (int i = 1; i <= turns; i++) {
             moveTurn();
-            behaviorTurn();
+            actionTurn();
             print();
 
             try {
@@ -104,7 +104,7 @@ public class GameEngine {
         grid.moveGridOrganisms();
     }
 
-    private void behaviorTurn() {
+    private void actionTurn() {
         // Organism behavior is evaluated in each square
         grid.gridOrganismsSquareActions();
     }

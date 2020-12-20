@@ -1,6 +1,8 @@
 package com.github.johnblakey.bug.world;
 
 import java.util.HashSet;
+import java.util.Random;
+import java.util.Vector;
 
 abstract class Organism {
     private String symbol = " ";
@@ -44,6 +46,43 @@ abstract class Organism {
     }
 
     abstract Organism createOffspring(SquareCoordinates squareCoordinates);
+
+    public SquareCoordinates getNewSquare(Vector<SquareCoordinates> validSquares, Grid grid) {
+        if (getIsDone())
+            return null;
+
+        // The time to death and reproduction drops by one turn
+        decrementStarveTurnsLeft();
+        decrementReproductionTurnsLeft();
+
+        // grab a random valid square (decision number input) - organism evaluates each if appropriate
+        // moveToEat first, move next
+        int decisionNumber = 15;
+        for (int i = 0; i < decisionNumber; i++) {
+            SquareCoordinates validSquare  = getRandomSquare(validSquares);
+            // TODO refactor and remove dependency to grid
+            if (moveToEat(grid.getSquareOrganisms(validSquare))) {
+                return validSquare;
+            }
+        }
+
+        for (int i = 0; i < decisionNumber; i++) {
+            SquareCoordinates validSquare  = getRandomSquare(validSquares);
+            if (move(grid.getSquareOrganisms(validSquare))) {
+                return validSquare;
+            }
+        }
+        // organism didn't move b/c no found valid location found
+        return null;
+    }
+
+    private SquareCoordinates getRandomSquare(Vector<SquareCoordinates> squaresVector) {
+        Random random = new Random();
+
+        int max = squaresVector.size();
+        int randomInt = random.nextInt(max);
+        return squaresVector.get(randomInt);
+    }
 
     abstract boolean moveToEat(HashSet<Organism> square);
 
