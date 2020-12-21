@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class Ant extends Organism {
     Ant(int x, int y) {
-        super("8", x, y, 15, 30, 1);
+        super("8", x, y, 15, 40, 1);
         eatBehavior = new Eat();
     }
 

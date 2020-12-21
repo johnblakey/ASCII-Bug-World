@@ -23,14 +23,7 @@ public class GameEngine {
         // Grid represents the world
         grid = new Grid(size);
         placeOrganisms(args);
-        print();
-
-        try {
-            Thread.sleep(timeSleep);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        print(0);
         gameLoop(turns);
     }
 
@@ -38,7 +31,7 @@ public class GameEngine {
         for (int i = 1; i <= turns; i++) {
             moveTurn();
             actionTurn();
-            print();
+            print(i);
 
             try {
                 Thread.sleep(timeSleep);
@@ -109,11 +102,15 @@ public class GameEngine {
         grid.gridOrganismsSquareActions();
     }
 
-    private void print() {
+    private void print(int turn) {
         // Clear console in terminal (does not work in IDEA)
         System.out.print("\033[H\033[2J");
         System.out.flush();
         grid.print();
-        System.out.print("\n\n");
+        System.out.print("\n");
+        System.out.println("Turn " + turn);
+        System.out.println("Ants " + grid.getAnts());
+        System.out.println("Spiders " + grid.getSpiders());
+        System.out.println("Plants " + grid.getPlants());
     }
 }
