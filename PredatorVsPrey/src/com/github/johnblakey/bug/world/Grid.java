@@ -195,10 +195,10 @@ public class Grid {
         }
 
         // Eating (TODO refactor to organisms -> grid knows too much) remove dependency with spider check
-        if (hasSpider && hasAnt && spider.getEatTurnsLeft() == 0) {
+        if (hasSpider && hasAnt && spider.getEatTurnsLeft() <= 0) {
             spider.performEat();
             removeOrganism(ant);
-        } else if (hasAnt && hasPlant && ant.getEatTurnsLeft() == 0) {
+        } else if (hasAnt && hasPlant && ant.getEatTurnsLeft() <= 0) {
             ant.performEat();
             removeOrganism(plant);
         }

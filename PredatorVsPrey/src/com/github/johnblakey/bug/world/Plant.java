@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class Plant extends Organism {
     Plant(int x, int y) {
         // TODO refactor to not have to enter a dummy value of 0
-        super("*", x, y, 10, 25, 0);
+        super("*", x, y, 15, 100, 0);
         eatBehavior = new NoEat();
     }
 
@@ -44,5 +44,11 @@ public class Plant extends Organism {
 
     public Organism createOffspring(SquareCoordinates squareCoordinates) {
         return new Plant(squareCoordinates.getX(), squareCoordinates.getY());
+    }
+
+    // TODO refactor, hacky override should use a different design
+    @Override
+    public boolean getHasEaten() {
+        return true;
     }
 }

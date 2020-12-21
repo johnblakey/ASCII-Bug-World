@@ -42,7 +42,7 @@ abstract class Organism {
     };
 
     public boolean shouldReproduce() {
-        if (reproduceTurnsLeft <= 0 && hasEaten) {
+        if (reproduceTurnsLeft <= 0 && getHasEaten()) {
             resetReproductionTurnsLeft();
             resetHasEaten();
             return true;
@@ -158,6 +158,10 @@ abstract class Organism {
 
     public int getEatTurnsLeft() {
         return eatTurnLeft;
+    }
+
+    public boolean getHasEaten() {
+        return hasEaten;
     }
 
     public void setHasEatenTrue() {

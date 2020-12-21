@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class Spider extends Organism {
     Spider(int x, int y) {
-        super("#", x, y, 21, 20, 3);
+        super("#", x, y, 25, 50, 5);
         eatBehavior = new Eat();
     }
 
