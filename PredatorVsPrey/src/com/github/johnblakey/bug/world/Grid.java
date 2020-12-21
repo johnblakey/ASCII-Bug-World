@@ -2,6 +2,7 @@ package com.github.johnblakey.bug.world;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Vector;
 
 public class Grid {
@@ -79,6 +80,8 @@ public class Grid {
 
         for (int y = size - 1; y >= 0; y--) {
             for (int x = 0; x < size; x++) {
+                // TODO refactor - hacky place to add this random plant generator
+                addPlantRandomlyToEmptySquare(grid[x][y], x, y);
                 moveSquareOrganisms(grid[x][y]);
             }
         }
@@ -86,6 +89,7 @@ public class Grid {
 
     private boolean moveSquareOrganisms(HashSet<Organism> square) {
         Iterator<Organism> i = square.iterator();
+
         while (i.hasNext()) {
             Organism organism = i.next();
             Vector<SquareCoordinates> validSquares = getValidSquare(organism);
@@ -99,6 +103,23 @@ public class Grid {
             }
         }
         return false;
+    }
+
+    private void addPlantRandomlyToEmptySquare(HashSet<Organism> square, int x, int y) {
+        Iterator<Organism> i = square.iterator();
+        Random random = new Random();
+        int bound = 3000;
+
+        // Empty square
+        if (!i.hasNext()) {
+            int randomInt = random.nextInt(bound);
+
+            // 1 in (bound) chance of being true
+            if ( bound / 2 == randomInt) {
+                Plant plant = new Plant(x, y);
+                addOrganism(plant);
+            }
+        }
     }
 
     private void moveOrganism(Organism organism, SquareCoordinates squareCoordinates) {
