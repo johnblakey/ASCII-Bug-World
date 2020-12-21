@@ -160,6 +160,10 @@ abstract class Organism {
         return eatTurnLeft;
     }
 
+    public void incrementEatTurnsLeft() {
+        ++eatTurnLeft;
+    }
+
     public boolean getHasEaten() {
         return hasEaten;
     }

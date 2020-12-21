@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class Ant extends Organism {
     Ant(int x, int y) {
-        super("8", x, y, 15, 40, 1);
+        super("*", x, y, 15, 40, 1);
         eatBehavior = new Eat();
     }
 
@@ -30,9 +30,10 @@ public class Ant extends Organism {
             }
         }
         // Ant does not want to eat a plant with a spider on it
-        if (hasPlant && !hasSpider)
+        if (hasPlant && !hasSpider) {
+
             return true;
-        else
+        } else
             return false;
     }
 
@@ -65,9 +66,10 @@ public class Ant extends Organism {
                 hasAnt = true;
         }
         // Ant won't move or reproduce to a square to get eaten or beside another ant
-        if (!hasSpider && !hasAnt)
+        if (!hasSpider && !hasAnt) {
+            this.incrementEatTurnsLeft();
             return true;
-        else
+        } else
             return false;
     }
 

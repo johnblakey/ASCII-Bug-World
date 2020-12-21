@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class Plant extends Organism {
     Plant(int x, int y) {
         // TODO refactor to not have to enter a dummy value of 0
-        super("*", x, y, 15, 100, 0);
+        super(".", x, y, 15, 100, 0);
         eatBehavior = new NoEat();
     }
 
