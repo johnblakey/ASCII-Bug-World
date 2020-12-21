@@ -9,6 +9,9 @@ public class Grid {
     private int size;
     private HashSet<Organism>[][] grid;
     private int totalOrganismTypes = 3;
+    private int ants;
+    private int spiders;
+    private int plants;
 
     public Grid(int size) {
         this.size = size;
@@ -27,6 +30,9 @@ public class Grid {
     }
 
     public void print() {
+        // Reset the count of organisms then start counting in the printing of the grid
+        resetOrganismsCount();
+
         for (int y = size - 1; y >= 0; y--) {
 //            System.out.print("|");
             for (int x = 0; x < size; x++) {
@@ -54,9 +60,42 @@ public class Grid {
 
     private void displayOrganisms(HashSet<Organism> square) {
         Iterator<Organism> i = square.iterator();
+        Organism organism = null;
 
-        while (i.hasNext())
-            System.out.print(i.next().getSymbol());
+        while (i.hasNext()) {
+            organism = i.next();
+
+            // To count the organisms reset the counter then as iterating through count the types found
+            countOrganisms(organism);
+
+            System.out.print(organism.getSymbol());
+        }
+    }
+
+    private void countOrganisms(Organism organism) {
+        if (organism instanceof Ant) {
+            ants++;
+        } else if (organism instanceof Spider) {
+            spiders++;
+        } else if (organism instanceof Plant) {
+            plants++;
+        }
+    }
+
+    private void resetOrganismsCount() {
+        ants = spiders = plants = 0;
+    }
+
+    public int getAnts() {
+        return ants;
+    }
+
+    public int getSpiders() {
+        return spiders;
+    }
+
+    public int getPlants() {
+        return plants;
     }
 
     public void resetGridOrganismsDone() {
@@ -108,14 +147,14 @@ public class Grid {
     private void addPlantRandomlyToEmptySquare(HashSet<Organism> square, int x, int y) {
         Iterator<Organism> i = square.iterator();
         Random random = new Random();
-        int bound = 3000;
+        int bound = 1500;
 
         // Empty square
         if (!i.hasNext()) {
             int randomInt = random.nextInt(bound);
 
             // 1 in (bound) chance of being true
-            if ( bound / 2 == randomInt) {
+            if (bound / 2 == randomInt) {
                 Plant plant = new Plant(x, y);
                 addOrganism(plant);
             }
